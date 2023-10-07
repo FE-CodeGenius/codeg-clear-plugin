@@ -6,7 +6,7 @@ import { ACTIVATION, execCommand, loggerInfo, printInfo } from "code-genius";
 import enquirer from "enquirer";
 import fs from "fs-extra";
 
-import { clearGlob, ClearOptions, schema, validateArgs } from "./common";
+import { clearGlob, ClearOptions } from "./common";
 
 const generateEnquirer = async (
   paths: Array<string>,
@@ -44,9 +44,6 @@ const clear = async (paths: string[]) => {
   if (ACTIVATION) {
     loggerInfo(`clear 参数信息: \n ${JSON.stringify(paths)}`);
   }
-
-  validateArgs(schema, paths);
-
   await execCommand("npx", ["rimraf", "--glob", ...paths], {
     stdio: "inherit",
   });
@@ -64,10 +61,10 @@ const clearInstaller = (config: ClearOptions) => {
         .option("-a, --ask", "启用询问模式")
         .action(async (options) => {
           const { pattern, ask } = options;
-          let paths = [];
+          let paths = files || clearGlob;
           if (ask) {
-            paths = await generateEnquirer(files || clearGlob);
-          } else {
+            paths = await generateEnquirer(paths);
+          } else if (pattern) {
             paths = typeof pattern === "string" ? [pattern] : pattern;
           }
           const start = performance.now();
