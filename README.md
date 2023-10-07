@@ -3,18 +3,17 @@
 ## 安装
 
 ```bash
-npm i @codegenius/clear-plugin
+npm i @codegenius/clear-plugin -D
 ```
 
 ```javascript
-// 开发期间使用
 import { defineConfig } from "code-genius";
-import clearInstaller from "@codegenius/clear-plugin";
+import { clearInstaller } from "@codegenius/clear-plugin";
 
 export default defineConfig({
   plugins: [
     clearInstaller({
-      files: ["./src"],
+      files: ["./dist", "./node_modules"],
     }),
   ],
 });
@@ -56,24 +55,9 @@ codeg clear --ask
 ### API 模式
 
 ```typescript
-import { clear } from "code-genius";
+import { clear } from "@codegenius/clear-plugin";
 
 (async () => {
   await clear(["./dist"]);
 })();
-```
-
-### 配置文件
-
-```typescript
-# 覆盖默认的 `files` 配置
-import { defineConfig } from "code-genius";
-
-export default defineConfig({
-  commands: {
-    clear: {
-      files: ["./dist"]
-    },
-  },
-});
 ```

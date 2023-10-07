@@ -58,6 +58,7 @@
     "simple-git-hooks": "^2.9.0"
   },
   "simple-git-hooks": {
-    "pre-commit": "codeg format && codeg impsort -p src"
+    "pre-commit": "npx esno scripts/lint-script.ts",
+    "commit-msg": "codeg verify"
   }
 }
