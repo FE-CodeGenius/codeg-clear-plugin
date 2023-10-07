@@ -8,13 +8,13 @@
     "url": "https://github.com/OSpoon"
   },
   "license": "MIT",
-  "homepage": "https://github.com/FE-CodeGenius/codeg-clear-plugin#readme",
+  "homepage": "https://github.com/FE-CodeGenius/codegenius-clear-plugin#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FE-CodeGenius/codeg-clear-plugin.git"
+    "url": "git+https://github.com/FE-CodeGenius/codegenius-clear-plugin.git"
   },
   "bugs": {
-    "url": "https://github.com/FE-CodeGenius/codeg-clear-plugin/issues"
+    "url": "https://github.com/FE-CodeGenius/codegenius-clear-plugin/issues"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",

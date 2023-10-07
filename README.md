@@ -1,5 +1,9 @@
 # @codegenius/clear-plugin
 
+运行 `rimraf` 删除不再需要的文件或文件夹, 支持命令模式, 询问模式和 **API** 模式;
+
+使用场景: 用于删除可以通过项目运行自动生成的文件, 如: `dist` 目录, 还有顽固的 `node_modules`.
+
 ## 安装
 
 ```bash
@@ -20,10 +24,6 @@ export default defineConfig({
 ```
 
 ## 使用
-
-运行 `rimraf` 删除不再需要的文件或文件夹, 支持命令模式, 询问模式和 **API** 模式;
-
-使用场景: 用于删除可以通过项目运行自动生成的文件, 如: `dist` 目录, 还有顽固的 `node_modules`.
 
 ### 命令模式
 
