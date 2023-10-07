@@ -1,39 +1,15 @@
 import path from "node:path";
 import { performance } from "node:perf_hooks";
 
-import Ajv from "ajv";
-import type { CAC } from "cac";
 import enquirer from "enquirer";
 import fs from "fs-extra";
 
-import { ACTIVATION, clearGlob } from "code-genius";
-import { execCommand, loggerInfo, printInfo } from "code-genius";
-import { ClearOptions, CodeGeniusOptions } from "code-genius";
-
-const schema = {
-  type: "object",
-  properties: {
-    paths: { type: "array" },
-  },
-  required: ["paths"],
-};
-
-const mergeConfig = async (config: CodeGeniusOptions) => {
-  const commands = config && config?.commands;
-  if (commands && commands.clear) {
-    const { files } = commands.clear;
-    return {
-      paths: files && files.length > 0 ? files : clearGlob,
-    };
-  }
-  return {
-    paths: clearGlob,
-  };
-};
+import { ACTIVATION, execCommand, loggerInfo, printInfo } from "code-genius";
+import { ClearOptions, clearGlob, schema, validateArgs } from "./common";
 
 const generateEnquirer = async (
-  config: CodeGeniusOptions
-): Promise<ClearOptions> => {
+  paths: Array<string>
+): Promise<Array<string>> => {
   const files = fs
     .readdirSync(path.join(process.cwd(), "."))
     .filter((v) => !v.startsWith("."))
@@ -45,7 +21,6 @@ const generateEnquirer = async (
     });
   files.sort((v1, v2) => v1.sort - v2.sort);
 
-  const { paths } = await mergeConfig(config);
   const fileMultiChoices = files.map((v) => {
     return {
       name: `./${v.file}`,
@@ -61,9 +36,7 @@ const generateEnquirer = async (
       choices: fileMultiChoices,
     },
   ]);
-  return {
-    files: result.files,
-  };
+  return result.files;
 };
 
 const clear = async (paths: string[]) => {
@@ -71,14 +44,7 @@ const clear = async (paths: string[]) => {
     loggerInfo(`clear 参数信息: \n ${JSON.stringify(paths)}`);
   }
 
-  const ajv = new Ajv();
-  const validate = ajv.compile(schema);
-  const valid = validate({
-    paths,
-  });
-  if (!valid && validate.errors && validate.errors?.length > 0) {
-    throw new Error(validate.errors[0].message);
-  }
+  validateArgs(schema, paths);
 
   await execCommand("npx", ["rimraf", "--glob", ...paths], {
     stdio: "inherit",
@@ -86,7 +52,8 @@ const clear = async (paths: string[]) => {
   printInfo("清理结束");
 };
 
-export default function clearInstaller(cli: CAC, config: CodeGeniusOptions) {
+const clearInstaller = (config: ClearOptions) => {
+  const { cli, files } = config;
   return {
     name: "clearInstaller",
     setup: () => {
@@ -98,8 +65,7 @@ export default function clearInstaller(cli: CAC, config: CodeGeniusOptions) {
           const { pattern, ask } = options;
           let paths = [];
           if (ask) {
-            const result = await generateEnquirer(config);
-            paths = result.files;
+            paths = await generateEnquirer(files || clearGlob);
           } else {
             paths = typeof pattern === "string" ? [pattern] : pattern;
           }
@@ -110,4 +76,6 @@ export default function clearInstaller(cli: CAC, config: CodeGeniusOptions) {
         });
     },
   };
-}
+};
+
+export { clear, clearInstaller };
