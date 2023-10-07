@@ -31,6 +31,7 @@ export default defineConfig({
     "ajv",
     "enquirer",
     "fs-extra",
+    "eslint-plugin-simple-import-sort",
     "code-genius",
   ],
 });

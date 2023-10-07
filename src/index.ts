@@ -1,14 +1,15 @@
 import path from "node:path";
 import { performance } from "node:perf_hooks";
 
+import type { CAC } from "cac";
+import { ACTIVATION, execCommand, loggerInfo, printInfo } from "code-genius";
 import enquirer from "enquirer";
 import fs from "fs-extra";
 
-import { ACTIVATION, execCommand, loggerInfo, printInfo } from "code-genius";
-import { ClearOptions, clearGlob, schema, validateArgs } from "./common";
+import { clearGlob, ClearOptions, schema, validateArgs } from "./common";
 
 const generateEnquirer = async (
-  paths: Array<string>
+  paths: Array<string>,
 ): Promise<Array<string>> => {
   const files = fs
     .readdirSync(path.join(process.cwd(), "."))
@@ -53,10 +54,10 @@ const clear = async (paths: string[]) => {
 };
 
 const clearInstaller = (config: ClearOptions) => {
-  const { cli, files } = config;
+  const { files } = config;
   return {
     name: "clearInstaller",
-    setup: () => {
+    setup: (cli: CAC) => {
       cli
         .command("clear", "运行 rimraf 删除不再需要的文件或文件夹")
         .option("-p, --pattern <pattern>", "设置匹配规则")

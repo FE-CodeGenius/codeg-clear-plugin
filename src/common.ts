@@ -1,12 +1,10 @@
 import Ajv from "ajv";
-import type { CAC } from "cac";
 
 export interface ClearOptions {
-  cli: CAC,
   files: Array<string>;
 }
 
-export const clearGlob = ["./src"];
+export const clearGlob = ["./dist"];
 
 export const schema = {
   type: "object",
