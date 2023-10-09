@@ -1,6 +1,6 @@
 {
   "name": "@codegenius/clear-plugin",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "基于 CodeGenius 的 Clear 插件",
   "author": {
     "name": "OSpoon",
