@@ -53,7 +53,9 @@ const clear = async (paths: string[]) => {
 const clearInstaller = (config: ClearOptions) => {
   const { files } = config;
   return {
-    name: "clearInstaller",
+    name: "clear",
+    describe: "运行 rimraf 删除不再需要的文件或文件夹",
+    command: "clear",
     setup: (cli: CAC) => {
       cli
         .command("clear", "运行 rimraf 删除不再需要的文件或文件夹")
