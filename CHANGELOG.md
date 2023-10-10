@@ -1,5 +1,7 @@
 
 
+## [0.0.8](https://github.com/FE-CodeGenius/codegenius-clear-plugin/compare/0.0.7...0.0.8) (2023-10-10)
+
 ## [0.0.7](https://github.com/FE-CodeGenius/codegenius-clear-plugin/compare/0.0.6...0.0.7) (2023-10-09)
 
 ## [0.0.6](https://github.com/FE-CodeGenius/codegenius-clear-plugin/compare/0.0.5...0.0.6) (2023-10-07)
